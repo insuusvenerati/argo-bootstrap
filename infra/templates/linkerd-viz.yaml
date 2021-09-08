@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-viz
+  namespace: argocd
+status: {}
+spec:
+  destination:
+    namespace: linkerd-viz
+    server: "https://kubernetes.default.svc"
+  project: default
+  source:
+    chart: linkerd-viz
+    helm:
+      valueFiles:
+        - values.yaml
+    repoURL: "https://helm.linkerd.io/stable"
+    targetRevision: 2.10.2
+  syncPolicy:
+    automated: {}

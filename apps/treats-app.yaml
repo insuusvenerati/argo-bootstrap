@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: treats-portfolio
+  namespace: argocd
+status: {}
+spec:
+  destination:
+    namespace: default
+    server: "https://kubernetes.default.svc"
+  project: default
+  source:
+    chart: treats-portfolio
+    helm:
+      parameters:
+        - name: flagger.enabled
+          value: "false"
+        - name: ingress.enabled
+          value: "true"
+        - name: "ingress.hosts[0].host"
+          value: treats.k8s.local
+      valueFiles:
+        - values.yaml
+    repoURL: "https://insuusvenerati.github.io/charts/"
+    targetRevision: 0.19.1
+  syncPolicy:
+    automated: {}
